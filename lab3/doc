@@ -1,0 +1,52 @@
+Preparatory assignment 1:
+- Read gpg.
+- Symmetric cryptography: Using the same key for encrypted and decrypted messages. Annoying to distribute key.
+- Hash functions: One way functions to map arbitrary input to fixed size output.
+- Signatures: 
+Alice hashes message M. h = hash(M)
+She encrypts h with her private key and sends to Bob.
+
+Bob decrypts with Alice's public key. 
+Compares the hashed M in the encryption with the message he hashes himself.
+If they match it is authentic.
+
+GPG commands:
+create keypair:
+gpg --gen-key
+
+generate key revocation cert:
+gpg --output revoke.asc --gen-revoke <mykey>
+where mykey is the specified ID of the keypair.
+
+list keys:
+gpg --list-keys
+
+Export public key:
+gpg --output alice.gpg --export alice@cyb.org
+where alice.gpg is name of output.
+alice@cyb.org is a specified ID to the keypair
+
+adding the --armor flag outputs the file in ASCII armored format.
+gpg --armor --export alice@cyb.org
+
+Import public key:
+gpg --import blake.gpg
+
+should validate key after importing:
+gpg --edit-key blake@cyb.org
+gpg> fpr (fingerprint)
+
+Sign public key:
+gpg> sign
+
+Check key signatures:
+gpg> check
+
+Encrypt document:
+gpg --output doc.gpg --encrypt --recipient blake@cyb.org doc
+
+Decrypt document:
+gpg --output doc --decrypt doc.gpg
+
+Sign document:
+gpg --output doc.sig --sign doc
